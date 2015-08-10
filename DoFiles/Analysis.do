@@ -36,16 +36,6 @@ keep if year >= 1990 // Year from 1990 onward
 
 ********************************************************************************
 *** Generating Variables
-
-* Revenue Variables
-	* taxr // IMF Fiscal Affairs Deparment 
-	* rev_tax // IMF GFS
-	* trv_tot_resource_rev
-	* tot_nresource_rev_inc_sc
-	* genrev
-	* grants
-	* revenuePerGDP
-*replace gdp_ppp = gdp
 	
 gen rGDP_ppp = gdp_ppp / cpi_d // cpi_d is cpi deflator with 2010 base year
 gen rGDPpc_ppp = rGDP_ppp / population // both values in millions
@@ -67,17 +57,13 @@ gen rGDP_exTOTadj_pc = rGDP_exTOTadj / population
 *TOT adjustment as a share of GDP
 gen rgdptt_shareGDP = rgdptt / rgdpl
 
-*** Making LIC variable
-*gen lic = 1 if inclvl_wb == 3
-*replace lic = 0 if inclvl_wb != 3
+*** Making binary variables 0/1 (not 1/2)
 replace lic = lic - 1
-*** Making binary variables
 replace ldc = ldc - 1
 replace resRich = resRich - 1
 
 *** Dividing by 100
 replace rents_totnres = rents_totnres / 100
-*replace rents_totnres = log(1+rents_totnres)
 
 *Creating additional variables
 gen rgdptt_ln = ln(rgdptt)
@@ -156,7 +142,7 @@ outreg2 using "$tables/table5", word label
 xtreg oneplus_ietot_rgdpl_ln rgdpl_ln resXrgdpl_ln if analysisSample == 1, fe robust
 outreg2 using "$tables/table5", word label
 
-* Clean Up Folder
+* Clean Up Folder (remove .txt files)
 cd "$projectpath/Tables/"
 local datafiles: dir "`workdir'" files "*.txt"
 foreach datafile of local datafiles {
@@ -216,13 +202,6 @@ gen labelnonLIC = "non-LIC" if year == 2010
 gen labelRES = "Res" if year == 2010
 gen labelnonRES = "non-Res" if year == 2010
 
-
-
-********************************************************************************
-********************************************************************************
-* 							    FIGURES
-********************************************************************************
-********************************************************************************
 
 *** Graph of Independent Variables - Not Divided by Country Category
 		twoway line rgdptt_ln year, ///
