@@ -14,6 +14,7 @@ Colombia
 Costa Rica
 Croatia
 Cyprus
+Djibouti
 Dominica
 Dominican Republic
 Egypt, Arab Rep.
@@ -24,10 +25,13 @@ Ghana
 Grenada
 Guatemala
 Honduras
+Hong Kong SAR, China
 India
 Jamaica
 Jordan
 Kiribati
+Korea, Rep.
+Kuwait
 Kyrgyz Republic
 Lebanon
 Lesotho
@@ -37,6 +41,7 @@ Maldives
 Malta
 Mauritius
 Moldova
+Montenegro
 Morocco
 Namibia
 Nicaragua
@@ -49,6 +54,8 @@ Sao Tome and Principe
 Senegal
 Serbia
 Seychelles
+Singapore
+Solomon Islands
 South Africa
 Sri Lanka
 St. Kitts and Nevis
@@ -56,6 +63,7 @@ St. Lucia
 St. Vincent and the Grenadines
 Swaziland
 Thailand
+Tonga
 Tunisia
 Turkey
 Ukraine

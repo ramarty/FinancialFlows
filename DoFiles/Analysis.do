@@ -17,8 +17,9 @@ global data "$projectpath/Data/"
 global tables "$projectpath/Tables/"
 global figures "$projectpath/Figures/"
 
-* Installing add-in
+* Installing add-ins
 ssc install listtex
+ssc install outreg2
 
 ********************************************************************************
 ********************************************************************************

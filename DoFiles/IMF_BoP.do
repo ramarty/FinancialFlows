@@ -183,7 +183,7 @@ foreach v in abscap absfin absnero abska abskae{
 }
 save "$BOPfolder/BoP_Data_IFSAvailability.dta", replace
 collapse (mean) abscap_imfy absfin_imfy absnero_imfy abska_imfy abskae_imfy, by(year lic)
-keep if year >= 1980 & year <= 2010
+keep if year >= 1980 & year <= 2008
 gen ends = 1 if inlist(year, 1980, 2008)
 gen labelLIC = "LIC" if year==2008
 gen labelnonLIC = "non-LIC" if year==2008
@@ -217,7 +217,7 @@ save "$BOPfolder/BoP_Data_IFSAvailability.dta", replace
 collapse (mean) absg_imfy absgs_imfy absgsi_imfy absca_imfy, by(year lic)
 keep if year >= 1980
 
-twoway area absca_imfy absgsi_imfy absgs_imfy absg_imfy year if lic == 1 & year < 2010, /// 
+twoway area absca_imfy absgsi_imfy absgs_imfy absg_imfy year if lic == 1 & year < 2008, /// 
 c(L L L L) ///
 lwidth(medthick medthick medthick medthick) ///
 m(p p p p) ///
@@ -230,7 +230,7 @@ graphregion(color(white)) ///
 ylabel(0(50)150, notick) xscale(noline) ///
 name(grossTradenonLIC, replace)
 
-twoway area absca_imfy absgsi_imfy absgs_imfy absg_imfy   year if lic == 2 & year < 2010, ///
+twoway area absca_imfy absgsi_imfy absgs_imfy absg_imfy   year if lic == 2 & year < 2008, ///
 c(L L L L) ///
 lwidth(medthick medthick medthick medthick) ///
 m(p p p p) ///
@@ -260,7 +260,7 @@ use "$BOPfolder/BoP_Data_IFSAvailability.dta", clear
 
 qui g finshare = 100*abskae_imf / (abskae_imf + absca_imf)
 collapse (mean) finshare, by(year lic)
-keep if year >= 1980 & year <= 2010
+keep if year >= 1980 & year <= 2008
 gen ends = 1 if inlist(year, 1980, 2008)
 gen labelLIC = "LIC" if year==2008
 gen labelnonLIC = "non-LIC" if year==2008
