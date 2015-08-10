@@ -3,8 +3,8 @@
 **        Graphs        **
 **						**
 **		Rob Marty		**
-**     USAID/E3/EP      **
-**  Last Updated 8/10   **
+**     USAID\E3\EP      **
+**  Last Updated 8\10   **
 **************************
 
 
@@ -15,11 +15,11 @@
 ********************************************************************************
 
 * Set file path to financial flows folder
-global projectpath "~/Desktop/USAID/ChiefEconomist/FinancialFlows/"
+global projectpath "~\Desktop\USAID\ChiefEconomist\FinancialFlows"
 
-global data "$projectpath/Data/"
-global tables "$projectpath/Tables/"
-global figures "$projectpath/Figures/"
+global data "$projectpath\Data\"
+global tables "$projectpath\Tables\"
+global figures "$projectpath\Figures\"
 
  						*** Install Packages ***
 * NOTE: You'll need to install "dm88_1" package. Just enter: "findit dm88_1," and
@@ -36,7 +36,7 @@ global figures "$projectpath/Figures/"
 
 *Setup
 	*availability sample
-		use "$data/financialflows.dta", clear
+		use "$data\financialflows.dta", clear
 		collapse (sum) oda oof remittances private, by(year)
 		gen official = oda + oof
 			lab var official "ODA and other offical flows"
@@ -45,7 +45,7 @@ global figures "$projectpath/Figures/"
 		tempfile availability
 		save `availability'
 	*constant sample
-		use "$data/financialflows_const.dta", clear				
+		use "$data\financialflows_const.dta", clear				
 		count if lic==2 & year==2012
 			global count_lic = `r(N)'
 		count if lic==1 & year==2012
@@ -161,7 +161,7 @@ global figures "$projectpath/Figures/"
 		graph combine panela panelb, row(2) ///
 		graphregion(color(white))
 		
-		graph export "$figures/ff_fig1.pdf", replace
+		graph export "$figures\ff_fig1.pdf", replace
 		
 
 graph drop _all
@@ -173,7 +173,7 @@ graph drop _all
 
 *Setup
 	*all dev
-		use "$data/financialflows_const.dta", clear
+		use "$data\financialflows_const.dta", clear
 		collapse (sum) epol_oda epol_oof epol_remittances epol_private, by(year)
 		gen epol_official = epol_oda + epol_oof
 			lab var epol_official "ODA and other offical flows"
@@ -187,7 +187,7 @@ graph drop _all
 		tempfile availability
 		save `availability'
 	*lic and other
-		use "$data/financialflows_const.dta", clear
+		use "$data\financialflows_const.dta", clear
 		count if lic==2 & year==2012
 			global count_lic = `r(N)'
 		count if lic==1 & year==2012
@@ -300,7 +300,7 @@ graph drop _all
 				"interpolated where data was missing", ///
 				size(vsmall))
 		graph display, ysize(5) xsize(4)
-		graph export "$figures/ff_fig2a.pdf", replace
+		graph export "$figures\ff_fig2a.pdf", replace
 		
 				
 ********************************************************************************
@@ -310,7 +310,7 @@ graph drop _all
 ********************************************************************************
 
 *Setup
-	use "$data/financialflows_const.dta", clear
+	use "$data\financialflows_const.dta", clear
 		
 		count if lic==2 & year==2012
 			global count_lic = `r(N)'
@@ -425,7 +425,7 @@ graph drop _all
 		note("Source: Official and Private Flows (OECD); Remittances (The World Bank)" ///
 			"Note: County averages between 2008-2012 (Constant Sample); interpolated where data was missing", ///
 			size(vsmall))
-		graph export "$figures/ff_fig2b.pdf", replace
+		graph export "$figures\ff_fig2b.pdf", replace
 		
 ********************************************************************************
 ********************************************************************************
@@ -437,7 +437,7 @@ graph drop _all
 *Setup
 	*WEIGHTED
 	*all dev
-		use "$data/financialflows_const.dta", clear
+		use "$data\financialflows_const.dta", clear
 		collapse (sum) gdp epol_oda epol_oof epol_remittances epol_private, by(year)
 		gen epol_official = epol_oda + epol_oof
 			lab var epol_official "ODA and other offical flows"
@@ -451,7 +451,7 @@ graph drop _all
 		tempfile availability
 		save `availability'
 	*lic and other
-		use "$data/financialflows_const.dta", clear
+		use "$data\financialflows_const.dta", clear
 		count if lic==2 & year==2012
 			global count_lic = `r(N)'
 		count if lic==1 & year==2012
@@ -485,7 +485,7 @@ graph drop _all
 		
 	*UNWEIGHTED 
 	*all dev
-		use "$data/financialflows_const.dta", clear
+		use "$data\financialflows_const.dta", clear
 		collapse (mean) gdp epol_oda epol_oof epol_remittances epol_private, by(year ctry)
 		gen epol_official = epol_oda + epol_oof
 			lab var epol_official "ODA and other offical flows"
@@ -499,7 +499,7 @@ graph drop _all
 		tempfile availability
 		save `availability'
 	*lic and other
-		use "$data/financialflows_const.dta", clear
+		use "$data\financialflows_const.dta", clear
 		count if lic==2 & year==2012
 			global count_lic = `r(N)'
 		count if lic==1 & year==2012
@@ -627,7 +627,7 @@ graph drop _all
 				"interpolated where data was missing", ///
 				size(vsmall))
 		graph display, ysize(5) xsize(4)
-		graph export "$figures/ff_fig2alt.pdf", replace
+		graph export "$figures\ff_fig2alt.pdf", replace
 		
 	
 			
@@ -641,7 +641,7 @@ graph drop _all
 *Setup
 	*WEIGHTED
 	***all dev
-		use "$data/financialflows_const.dta", clear
+		use "$data\financialflows_const.dta", clear
 		keep if include_Rev == 2
 		collapse (sum) gdp epol_imfFA_revMGnts epol_oda epol_oof epol_remittances epol_private, by(year)
 		gen totflow = epol_oda + epol_oof + epol_private + epol_remittances	
@@ -655,7 +655,7 @@ graph drop _all
 		tempfile availability
 		save `availability'
 	***lic and other		
-		use "$data/financialflows_const.dta", clear
+		use "$data\financialflows_const.dta", clear
 		keep if include_Rev == 2
 		count if lic==2 & year==2012
 			global count_lic = `r(N)'
@@ -695,7 +695,7 @@ graph drop _all
 	
 	*UNWEIGHTED
 	***all dev
-		use "$data/financialflows_const.dta", clear
+		use "$data\financialflows_const.dta", clear
 		keep if include_Rev == 2
 		collapse (mean) gdp epol_imfFA_revMGnts epol_oda epol_oof epol_remittances epol_private, by(year ctry)
 		gen totflow = epol_oda + epol_oof + epol_private + epol_remittances	
@@ -709,7 +709,7 @@ graph drop _all
 		tempfile availability
 		save `availability'
 	***lic and other		
-		use "$data/financialflows_const.dta", clear
+		use "$data\financialflows_const.dta", clear
 		keep if include_Rev == 2
 		count if lic==2 & year==2012
 			global count_lic = `r(N)'
@@ -844,7 +844,7 @@ graph drop _all
 			"Note: Sample of $count_all countries from constant sample used; interpolated where data was missing", ///
 				size(vsmall))
 		graph display, ysize(5) xsize(4)
-		graph export "$figures/ff_fig3a.pdf", replace
+		graph export "$figures\ff_fig3a.pdf", replace
 	
 ********************************************************************************
 ********************************************************************************
@@ -856,7 +856,7 @@ graph drop _all
 *Setup
 	*WEIGHTED
 	***all dev
-		use "$data/financialflows_const.dta", clear
+		use "$data\financialflows_const.dta", clear
 		keep if include_Rev == 2
 		collapse (sum) gdp epol_imfFA_revMGnts epol_oda epol_oof epol_remittances epol_private, by(year)
 		gen totflow = epol_oda + epol_oof + epol_private + epol_remittances	
@@ -870,7 +870,7 @@ graph drop _all
 		tempfile availability
 		save `availability'
 	***resRich and other		
-		use "$data/financialflows_const.dta", clear
+		use "$data\financialflows_const.dta", clear
 		keep if include_Rev == 2
 		count if resRich==2 & year==2012
 			global count_resRich = `r(N)'
@@ -910,7 +910,7 @@ graph drop _all
 	
 	*UNWEIGHTED
 	***all dev
-		use "$data/financialflows_const.dta", clear
+		use "$data\financialflows_const.dta", clear
 		keep if include_Rev == 2
 		collapse (mean) gdp epol_imfFA_revMGnts epol_oda epol_oof epol_remittances epol_private, by(year ctry)
 		gen totflow = epol_oda + epol_oof + epol_private + epol_remittances	
@@ -924,7 +924,7 @@ graph drop _all
 		tempfile availability
 		save `availability'
 	***resRich and other		
-		use "$data/financialflows_const.dta", clear
+		use "$data\financialflows_const.dta", clear
 		keep if include_Rev == 2
 		count if resRich==2 & year==2012
 			global count_resRich = `r(N)'
@@ -1062,7 +1062,7 @@ graph drop _all
 			"2006-2010 average.", ///
 				size(vsmall))
 		graph display, ysize(5) xsize(4)
-		graph export "$figures/ff_fig3b.pdf", replace
+		graph export "$figures\ff_fig3b.pdf", replace
 	
 
 		
@@ -1076,7 +1076,7 @@ graph drop _all
 
 * Real Avg Resource Dependence Flows (2006-2010)
 		
-	use "$data/financialflows_const.dta", clear
+	use "$data\financialflows_const.dta", clear
 
 	* indentify a constant sample for resource dependence
 	* (full obseravtions for all years and flows)
@@ -1253,7 +1253,7 @@ graph drop _all
 			"comprised at least 20 percent of total exports or 20 percent of natural resource revenues, based on a" /// 
 			"2006-2010 average.", ///
 			size(vsmall))	
-		graph export "$figures/ff_fig4.pdf", replace
+		graph export "$figures\ff_fig4.pdf", replace
 			
 ********************************************************************************
 ********************************************************************************
@@ -1262,7 +1262,7 @@ graph drop _all
 ********************************************************************************
 
 *Setup
-	use "$data/financialflows.dta", clear
+	use "$data\financialflows.dta", clear
 	collapse (sum) oda oof remittances private population (mean) cpi_d, by(year)
 	gen official = oda + oof
 		lab var official "ODA and other offical flows"
@@ -1344,14 +1344,14 @@ graph drop _all
 			note("Source: Official and Private Flows (OECD); Remittances (The World Bank)", ///
 				size(small))
 		graph display, ysize(2) xsize(4)
-		graph export "$figures/ff_AppenFigA1.pdf", replace
+		graph export "$figures\ff_AppenFigA1.pdf", replace
 
 ********************************************************************************
 ********************************************************************************
 						*** Comparing Two Revenues ***
 ********************************************************************************
 ********************************************************************************		
-use "$data/financialflows_const.dta", clear
+use "$data\financialflows_const.dta", clear
 
 	sum taxr // IMF Fiscal Affairs Deparment
 	sum rev_tax // IMF GFS
@@ -1391,7 +1391,7 @@ use "$data/financialflows_const.dta", clear
 			"Note: Sample of $count_all countries constant across 11 years (constant sample); interpolated where data was missing", ///
 			size(vsmall))
 			
-			graph export "$figures/TaxRev.pdf", replace
+			graph export "$figures\TaxRev.pdf", replace
 
 
 			
@@ -1402,7 +1402,7 @@ use "$data/financialflows_const.dta", clear
 ********************************************************************************
 
 
-use "$data/financialflows_const.dta", clear
+use "$data\financialflows_const.dta", clear
 	collapse (sum) expetyp_totexp rev_tax, by(year)
 	keep if year >= 1995 & year <= 2011
 
@@ -1443,7 +1443,7 @@ use "$data/financialflows_const.dta", clear
 			"Note: Sample of $count_all countries constant across 11 years (constant sample); interpolated where data was missing", ///
 			size(vsmall))
 			
-			graph export "$figures/ExpendRev.pdf", replace
+			graph export "$figures\ExpendRev.pdf", replace
 
 
 

@@ -3,19 +3,19 @@
 **        Graphs        **
 **						**
 **		Rob Marty		**
-**     USAID/E3/EP      **
-**  Last Updated 8/10   **
+**     USAID\E3\EP      **
+**  Last Updated 8\10   **
 **************************
 
 ********************************************************************************	
 * INITIAL SET-UP    
 
 * Set file path to financial flows folder
-global projectpath "~/Desktop/USAID/ChiefEconomist/FinancialFlows/"
+global projectpath "~\Desktop\USAID\ChiefEconomist\FinancialFlows"
 
-global data "$projectpath/Data/"
-global tables "$projectpath/Tables/"
-global figures "$projectpath/Figures/"
+global data "$projectpath\Data\"
+global tables "$projectpath\Tables\"
+global figures "$projectpath\Figures\"
 
 * Parameters
 scalar define beginYear = 1995
@@ -28,18 +28,18 @@ ssc install listtex
 ********************************************************************************
 * UPDATE AVAILABLE SAMPLE
 
-use "$data/financialflows.dta", clear
+use "$data\financialflows.dta", clear
 
 * Defining Revenue Variable
 replace imfFA_revMGnts_perGDP = (imfFA_rev - imfFA_grants_zeros)/100 // (imfFA_grants_zeros, missing values = zero) (imfFA_grants, missing values = missing) 
 replace imfFA_revMGnts = gdp * imfFA_revMGnts_perGDP
 
-save "$data/financialflows.dta", replace
+save "$data\financialflows.dta", replace
 
 ********************************************************************************
 * MAKE CONSTANT SAMPLE
 
-use "$data/financialflows.dta", clear
+use "$data\financialflows.dta", clear
 
 *** Define which years and countries to keep
 keep if year >= `=scalar(beginYear)' & year <= `=scalar(endYear)'
@@ -75,7 +75,7 @@ tempfile constantCountries
 save `constantCountries'
 
 ***** Merging
-use "$data/financialflows.dta", clear
+use "$data\financialflows.dta", clear
 keep if year >= `=scalar(beginYear)' & year <= `=scalar(endYear)'
 keep if devstatus == 2 | devstatus == 3
 
@@ -94,13 +94,13 @@ merge m:1 iso using `constantCountries', nogen
 drop if constantKeep != 1
 drop constantKeep
 		
-save "$data/financialflows_const.dta", replace
+save "$data\financialflows_const.dta", replace
 
 
 ********************************************************************************
 * Define which countries are in Gov't Revenue Constant Sample
 
-use "$data/financialflows.dta", clear
+use "$data\financialflows.dta", clear
 
 *** Figure out which countries to keep
 keep if year >= `=scalar(beginYear)' & year <= `=scalar(endYear)'
@@ -134,7 +134,7 @@ tempfile RevCountries
 save `RevCountries' 
 
 ***** Merging
-use "$data/financialflows_const.dta", clear
+use "$data\financialflows_const.dta", clear
 
 merge m:1 iso using `RevCountries'
 *drop if _merge == 2
@@ -143,17 +143,17 @@ replace include_Rev = 1 if include_Rev != 2
 
 *gen imfFA_revMGnts = imfFA_revMGnts_perGDP * epol_gdp
 keep if year >= `=scalar(beginYear)' & year <= `=scalar(endYear)'
-save "$data/financialflows_const.dta", replace
+save "$data\financialflows_const.dta", replace
 
 *List countries in constant sample
 
-cd "$tables/CountriesInSample/ConstantSample/" 
+cd "$tables\CountriesInSample\ConstantSample\" 
 listtex ctry using NonRes_NonLIC.txt if resRich == 1 & lic == 1 & year == 2000, rstyle(tabdelim) replace // Non-Resource Dependent & Non-LDC
 listtex ctry using Res_LIC.txt       if resRich == 2 & lic == 2 & year == 2000, rstyle(tabdelim) replace // Resource Dependent & LDC
 listtex ctry using Res_NonLIC.txt    if resRich == 2 & lic == 1 & year == 2000, rstyle(tabdelim) replace // Resource Dependent & Non-LDC
 listtex ctry using NonRes_LIC.txt    if resRich == 1 & lic == 2 & year == 2000, rstyle(tabdelim) replace // Non-Resource Dependent & LDC
 
-cd "$tables/CountriesInSample/ConstantSample_GovtRevenue/" 
+cd "$tables\CountriesInSample\ConstantSample_GovtRevenue\" 
 listtex ctry using NonRes_NonLIC_GovtRev.txt if resRich == 1 & lic == 1 & include_Rev == 2 & year == 2000, rstyle(tabdelim) replace // Non-Resource Dependent & Non-LDC
 listtex ctry using Res_LIC_GovtRev.txt       if resRich == 2 & lic == 2 & include_Rev == 2 & year == 2000, rstyle(tabdelim) replace // Resource Dependent & LDC
 listtex ctry using Res_NonLIC_GovtRev.txt    if resRich == 2 & lic == 1 & include_Rev == 2 & year == 2000, rstyle(tabdelim) replace // Resource Dependent & Non-LDC

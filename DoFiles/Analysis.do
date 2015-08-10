@@ -3,19 +3,19 @@
 **       Analysis       **
 **						**
 **		Rob Marty		**
-**     USAID/E3/EP      **
-**  Last Updated 8/10   **
+**     USAID\E3\EP      **
+**  Last Updated 8\10   **
 **************************
 
 ********************************************************************************	
 * INITIAL SET-UP    
 
 * Set file path to financial flows folder
-global projectpath "~/Desktop/USAID/ChiefEconomist/FinancialFlows/"
+global projectpath "~\Desktop\USAID\ChiefEconomist\FinancialFlows"
 
-global data "$projectpath/Data/"
-global tables "$projectpath/Tables/"
-global figures "$projectpath/Figures/"
+global data "$projectpath\Data\"
+global tables "$projectpath\Tables\"
+global figures "$projectpath\Figures\"
 
 * Installing add-ins
 ssc install listtex
@@ -27,7 +27,7 @@ ssc install outreg2
 ********************************************************************************
 ********************************************************************************
 
-use "$data/financialflows.dta", clear
+use "$data\financialflows.dta", clear
 
 ********************************************************************************
 *** Restricting Dataset
@@ -57,7 +57,7 @@ gen rGDP_exTOTadj_pc = rGDP_exTOTadj / population
 *TOT adjustment as a share of GDP
 gen rgdptt_shareGDP = rgdptt / rgdpl
 
-*** Making binary variables 0/1 (not 1/2)
+*** Making binary variables 0\1 (not 1\2)
 replace lic = lic - 1
 replace ldc = ldc - 1
 replace resRich = resRich - 1
@@ -80,7 +80,7 @@ gen resXrents_totnres = resRich * rents_totnres
 
 ********************************************************************************
 *** Value Labels
-label variable Rev_GDP "Rev/GDP"
+label variable Rev_GDP "Rev\GDP"
 label variable rgdptt_ln "log(pcGDI)"
 label variable rgdpl_ln "log(pcGDP)"
 label variable oneplus_ietot_rgdpl_ln "log(IETOT)"
@@ -90,9 +90,9 @@ label variable licXrgdpl_ln "LIC·log(pcGDP)"
 label variable licXoneplus_ietot_rgdpl_ln "LIC·log(pcIETOT)"
 label variable resXrgdpl_ln "ResDep·log(pcGDP)"
 label variable resXoneplus_ietot_rgdpl_ln "ResDep·log(pcIETOT)"
-label variable rents_totnres "Rents/GDP"
-label variable licXrents_totnres "LIC·Rents/GDP"
-label variable resXrents_totnres "ResDep·Rents/GDP"
+label variable rents_totnres "Rents\GDP"
+label variable licXrents_totnres "LIC·Rents\GDP"
+label variable resXrents_totnres "ResDep·Rents\GDP"
 
 ********************************************************************************
 *** Regressions
@@ -103,47 +103,47 @@ xtset Countries year
 
 * Rev_GDP ~ GDI
 xtreg Rev_GDP rgdptt_ln, fe robust
-outreg2 using "$tables/table1", word label replace
+outreg2 using "$tables\table1", word label replace
 xtreg Rev_GDP rgdptt_ln licXrgdptt_ln, fe robust
-outreg2 using "$tables/table1", word label
+outreg2 using "$tables\table1", word label
 xtreg Rev_GDP rgdptt_ln resXrgdptt_ln, fe robust
-outreg2 using "$tables/table1", word label
+outreg2 using "$tables\table1", word label
 
 * Rev_GDP ~ GDP + IETOT
 xtreg Rev_GDP rgdpl_ln oneplus_ietot_rgdpl_ln, fe robust
-outreg2 using "$tables/table2", word label replace
+outreg2 using "$tables\table2", word label replace
 xtreg Rev_GDP rgdpl_ln oneplus_ietot_rgdpl_ln licXrgdpl_ln licXoneplus_ietot_rgdpl_ln, fe robust
-outreg2 using "$tables/table2", word label
+outreg2 using "$tables\table2", word label
 xtreg Rev_GDP rgdpl_ln oneplus_ietot_rgdpl_ln resXrgdpl_ln resXoneplus_ietot_rgdpl_ln, fe robust
-outreg2 using "$tables/table2", word label
+outreg2 using "$tables\table2", word label
 
 * Rev_GDP ~ GDP + Rents
 xtreg Rev_GDP rgdpl_ln rents_totnres, fe robust
-outreg2 using "$tables/table3", word label replace
+outreg2 using "$tables\table3", word label replace
 xtreg Rev_GDP rgdpl_ln rents_totnres licXrgdpl_ln licXrents_totnres, fe robust
-outreg2 using "$tables/table3", word label
+outreg2 using "$tables\table3", word label
 xtreg Rev_GDP rgdpl_ln rents_totnres resXrgdpl_ln resXrents_totnres, fe robust
-outreg2 using "$tables/table3", word label
+outreg2 using "$tables\table3", word label
 
 * Rev_GDP ~ GDP
 xtreg Rev_GDP rgdpl_ln, fe robust
-outreg2 using "$tables/table4", word label replace
+outreg2 using "$tables\table4", word label replace
 xtreg Rev_GDP rgdpl_ln licXrgdpl_ln, fe robust
-outreg2 using "$tables/table4", word label
+outreg2 using "$tables\table4", word label
 xtreg Rev_GDP rgdpl_ln resXrgdpl_ln, fe robust
-outreg2 using "$tables/table4", word label
+outreg2 using "$tables\table4", word label
 gen analysisSample = 1 if e(sample)
 
 * pcIETOT ~ GDP
 xtreg oneplus_ietot_rgdpl_ln rgdpl_ln if analysisSample == 1, fe robust
-outreg2 using "$tables/table5", word label replace
+outreg2 using "$tables\table5", word label replace
 xtreg oneplus_ietot_rgdpl_ln rgdpl_ln licXrgdpl_ln if analysisSample == 1, fe robust
-outreg2 using "$tables/table5", word label
+outreg2 using "$tables\table5", word label
 xtreg oneplus_ietot_rgdpl_ln rgdpl_ln resXrgdpl_ln if analysisSample == 1, fe robust
-outreg2 using "$tables/table5", word label
+outreg2 using "$tables\table5", word label
 
 * Clean Up Folder (remove .txt files)
-cd "$projectpath/Tables/"
+cd "$projectpath\Tables\"
 local datafiles: dir "`workdir'" files "*.txt"
 foreach datafile of local datafiles {
         rm `datafile'
@@ -224,12 +224,12 @@ gen labelnonRES = "non-Res" if year == 2010
 			plotregion(style(none)) ///
 			graphregion(color(white)) ///
 			lwidth(medthick) ///
-			nodraw
+			nodraw 
 
 		twoway line oneplus_ietot_rgdpl_ln year, ///
 			legend(off) ///
 			title("{bf: per capita Income Effect of Terms of Trade}", color(black) size(medium) box bexpand bcolor("217 217 217")) ///
-			ytitle("log(1+(ietot/pcGDP))") xtitle("") ///
+			ytitle("log(1+(ietot\pcGDP))") xtitle("") ///
 			xlabel(1990(5)2010, notick) xscale(noline) ///
 			name("ietot", replace) ///
 			plotregion(style(none)) ///
@@ -240,7 +240,7 @@ gen labelnonRES = "non-Res" if year == 2010
 		graph combine gdi gdp ietot, row(3) graphregion(color(white)) ///
 		note("Data is averaged across countries for each year")
 		graph display, ysize(5) xsize(4)
-		graph export "$figures/Analysis_Indepn.pdf", replace
+		graph export "$figures\Analysis_Indepn.pdf", replace
 
 *** Graph of Independent Variables - LIC
 		twoway line rgdptt_ln year, lcolor("black") lwidth(medthick) || ///
@@ -284,7 +284,7 @@ gen labelnonRES = "non-Res" if year == 2010
 				scatter oneplus_ietot_rgdpl_ln_LIC year if ends == 1, mcolor("blue") msize(medium) || ///
 			line oneplus_ietot_rgdpl_ln_nonLIC year, lcolor("green" ) lwidth(medthick) || ///
 				scatter oneplus_ietot_rgdpl_ln_nonLIC year if ends == 1, mcolor("green") msize(medium) ///
-			title("{bf: log(1+IETOT/pcGDP)}", color(black) size(small) box bexpand bcolor("217 217 217")) ///
+			title("{bf: log(1+IETOT\pcGDP)}", color(black) size(small) box bexpand bcolor("217 217 217")) ///
 			ytitle("") xtitle("") ///
 			xlabel(1990(5)2012, notick) xscale(noline) ///
 			ytick(#3) ylabel(#3) ///
@@ -300,7 +300,7 @@ gen labelnonRES = "non-Res" if year == 2010
 				scatter rents_totnres_LIC year if ends == 1, mcolor("blue") msize(medium) || ///
 			line rents_totnres_nonLIC year, lcolor("green" ) lwidth(medthick) || ///
 				scatter rents_totnres_nonLIC year if ends == 1, mcolor("green") msize(medium) ///
-			title("{bf: Rents/GDP}", color(black) size(small) box bexpand bcolor("217 217 217")) ///
+			title("{bf: Rents\GDP}", color(black) size(small) box bexpand bcolor("217 217 217")) ///
 			ytitle("") xtitle("") ///
 			xlabel(1990(5)2012, notick) xscale(noline) ///
 			ytick(#2) ylabel(#2) ///
@@ -313,7 +313,7 @@ gen labelnonRES = "non-Res" if year == 2010
 		graph combine rgdptt_ln_LIC rgdpl_ln_LIC oneplus_ietot_rgdpl_ln_LIC rents_totnres_LIC, row(4) graphregion(color(white)) ///
 		note("Data is averaged across countries for each year. 'LIC' indicates Low-Income Country.", size(vsmall))
 		graph display, ysize(5) xsize(4)
-		graph export "$figures/Analysis_Indepn_LIC.pdf", replace
+		graph export "$figures\Analysis_Indepn_LIC.pdf", replace
 	
 		
 *** Graph of Independent Variables - RES
@@ -358,7 +358,7 @@ gen labelnonRES = "non-Res" if year == 2010
 				scatter oneplus_ietot_rgdpl_ln_RES year if ends == 1, mcolor("blue") msize(medium) || ///
 			line oneplus_ietot_rgdpl_ln_nonRES year, lcolor("green" ) lwidth(medthick) || ///
 				scatter oneplus_ietot_rgdpl_ln_nonRES year if ends == 1, mcolor("green") msize(medium) ///
-			title("{bf: log(1+IETOT/pcGDP)}", color(black) size(small) box bexpand bcolor("217 217 217")) ///
+			title("{bf: log(1+IETOT\pcGDP)}", color(black) size(small) box bexpand bcolor("217 217 217")) ///
 			ytitle("") xtitle("") ///
 			xlabel(1990(5)2012, notick) xscale(noline) ///
 			ytick(#3) ylabel(#3) ///
@@ -374,7 +374,7 @@ gen labelnonRES = "non-Res" if year == 2010
 				scatter rents_totnres_RES year if ends == 1, mcolor("blue") msize(medium) || ///
 			line rents_totnres_nonRES year, lcolor("green" ) lwidth(medthick) || ///
 				scatter rents_totnres_nonRES year if ends == 1, mcolor("green") msize(medium) ///
-			title("{bf: Rents/GDP}", color(black) size(small) box bexpand bcolor("217 217 217")) ///
+			title("{bf: Rents\GDP}", color(black) size(small) box bexpand bcolor("217 217 217")) ///
 			ytitle("") xtitle("") ///
 			xlabel(1990(5)2012, notick) xscale(noline) ///
 			ytick(#2) ylabel(#2) ///
@@ -387,7 +387,7 @@ gen labelnonRES = "non-Res" if year == 2010
 		graph combine rgdptt_ln_RES rgdpl_ln_RES oneplus_ietot_rgdpl_ln_RES rents_totnres_RES, row(4) graphregion(color(white)) ///
 		note("Data is averaged across countries for each year. 'Res' indicates Resource Dependent.", size(vsmall))
 		graph display, ysize(5) xsize(4)
-		graph export "$figures/Analysis_Indepn_RES.pdf", replace
+		graph export "$figures\Analysis_Indepn_RES.pdf", replace
 		
 
 *List countries in regression sample
@@ -395,7 +395,7 @@ gen labelnonRES = "non-Res" if year == 2010
 use `datasetRegressions', clear
 keep if analysisSample == 1
 collapse (mean) resRich lic rgdpl_ln oneplus_ietot_rgdpl_ln, by(Countries)
-cd "$tables/CountriesInSample/Regressions/" 
+cd "$tables\CountriesInSample\Regressions\" 
 
 listtex Countries using NonRes_NonLIC.txt if resRich == 0 & lic == 0, rstyle(tabdelim) replace // Non-Resource Dependent & Non-LIC
 listtex Countries using Res_LIC.txt       if resRich == 1 & lic == 1, rstyle(tabdelim) replace // Resource Dependent & LIC

@@ -3,8 +3,8 @@
 **        Graphs        **
 **						**
 **		Rob Marty		**
-**     USAID/E3/EP      **
-**  Last Updated 8/10   **
+**     USAID\E3\EP      **
+**  Last Updated 8\10   **
 **************************
 
 ********************************************************************************
@@ -14,11 +14,11 @@
 ********************************************************************************
 
 * Set file path to financial flows folder
-global projectpath "~/Desktop/USAID/ChiefEconomist/FinancialFlows/"
+global projectpath "~\Desktop\USAID\ChiefEconomist\FinancialFlows"
 
-global data "$projectpath/Data/"
-global tables "$projectpath/Tables/"
-global figures "$projectpath/Figures/"
+global data "$projectpath\Data\"
+global tables "$projectpath\Tables\"
+global figures "$projectpath\Figures\"
 
  						*** Install Packages ***
 * NOTE: You'll need to install "dm88_1" package. Just enter: "findit dm88_1," and
@@ -28,73 +28,17 @@ global figures "$projectpath/Figures/"
 
 
 ********************************************************************************
+********************************************************************************	
+** 								MAKING FIGURE                                 **
 ********************************************************************************
-* 						           Figure
-********************************************************************************
 ********************************************************************************
 
-use "$data/financialflows.dta", clear
-
-*** Figure out which countries to keep
-keep if year >= 1995 & year <= 2012
-
-keep ctry iso year oda oof private remittances gdp
-order ctry iso year oda oof private remittances gdp
-
-gen end1995 = .
-gen end2012 = . 
-
-replace end1995 = 1 if oda != . & oof != . & private != . & remittances != . & gdp != . & year == 1995 
-replace end2012 = 1 if oda != . & oof != . & private != . & remittances != . & gdp != . & year == 2012 
-
-replace end1995 = 0 if end1995 == .
-replace end2012 = 0 if end2012 == .
-gen end95_12 = end1995 + end2012
-replace end95_12 = . if end95_12 == 0
-
-foreach f in oda oof private remittances gdp{
-	replace `f' = 1 if `f' != .
-}
-
-collapse (sum) oda oof private remittances gdp end95_12, by(iso)
-
-keep if end95_12 == 2
-
-keep if end95_12 == 2 & oda >= 9 & oof >= 9 & private >= 9 & remittances >= 9 & gdp >= 9
-
-drop oda oof private remittances gdp end95_12
-
-gen constantKeep = 1
-
-tempfile constantCountries
-save `constantCountries'
-
-***** Merging
-use "$data/financialflows.dta", clear
-keep if year >= 1995 & year <= 2012
-
-merge m:1 iso using `constantCountries', nogen
-
-drop if constantKeep != 1
-
-
-**** Interpolating
-
-*interpolate between endpoints
-	sort ctry year
-	foreach v of varlist oda oof private remittances gdp{
-		by ctry: ipolate `v' year, gen(epol_`v') epolate
-			local label : variable label `v'		
-			lab var epol_`v' "Interpolated `label'"
-		}
-		*end
-		
-save "/Users/robmarty/Desktop/USAID/ChiefEconomist/FinancingFlows/StataOutput/financialflows_const.dta", replace
+use "$data\financialflows_const.dta", clear
 
 *Setup
 	*WEIGHTED
 	*all dev
-		*use "$data/financialflows_const.dta", clear
+		*use "$data\financialflows_const.dta", clear
 		collapse (sum) gdp epol_oda epol_oof epol_remittances epol_private, by(year)
 		gen epol_official = epol_oda + epol_oof
 			lab var epol_official "ODA and other offical flows"
@@ -108,7 +52,7 @@ save "/Users/robmarty/Desktop/USAID/ChiefEconomist/FinancingFlows/StataOutput/fi
 		tempfile availability
 		save `availability'
 	*lic and other
-		use "$data/financialflows_const.dta", clear
+		use "$data\financialflows_const.dta", clear
 		count if lic==2 & year==2012
 			global count_lic = `r(N)'
 		count if lic==1 & year==2012
@@ -142,7 +86,7 @@ save "/Users/robmarty/Desktop/USAID/ChiefEconomist/FinancingFlows/StataOutput/fi
 		
 	*UNWEIGHTED 
 	*all dev
-		use "$data/financialflows_const.dta", clear
+		use "$data\financialflows_const.dta", clear
 		collapse (mean) gdp epol_oda epol_oof epol_remittances epol_private, by(year ctry)
 		gen epol_official = epol_oda + epol_oof
 			lab var epol_official "ODA and other offical flows"
@@ -156,7 +100,7 @@ save "/Users/robmarty/Desktop/USAID/ChiefEconomist/FinancingFlows/StataOutput/fi
 		tempfile availability
 		save `availability'
 	*lic and other
-		use "$data/financialflows_const.dta", clear
+		use "$data\financialflows_const.dta", clear
 		count if lic==2 & year==2012
 			global count_lic = `r(N)'
 		count if lic==1 & year==2012
@@ -199,8 +143,8 @@ save "/Users/robmarty/Desktop/USAID/ChiefEconomist/FinancingFlows/StataOutput/fi
 		local ylabel2 0(10)50
 		local ylabel3 0(100)600
 	*graphs
-	* http://www.statalist.org/forums/forum/general-stata-discussion/general/257534-getting-bold-and-italics-simultaneously-via-%7Bbf-and-%7Bit
-		*forvalues i = 1/2{
+	* http://www.statalist.org\forums\forum\general-stata-discussion\general\257534-getting-bold-and-italics-simultaneously-via-%7Bbf-and-%7Bit
+		*forvalues i = 1\2{
 			twoway area sa_private sa_remittances sa_official year if lic==3, ///
 				xlabel(1995(5)2012, notick labsize(small)) xscale(noline) ///
 				ylabel(0(100)600, grid angle(0) notick labsize(small) labstyle(right)) yscale(noline) ///
@@ -288,7 +232,7 @@ save "/Users/robmarty/Desktop/USAID/ChiefEconomist/FinancingFlows/StataOutput/fi
 		*Private: 1 28 88
 		
 	*graphs 
-		*forvalues i = 1/4{
+		*forvalues i = 1\4{
 		
 			twoway line uw_sh_epol_official year if lic==3, lcolor("83 83 83" ) lpattern(solid) lwidth(medthick) ylabel(-3 "-3%" 0 "0%" 3 "3%" 6 "6%" 9 "9%") || ///
 				scatter uw_sh_epol_official year if lic==3 & ends==1, msize(large) mcolor("83 83 83") ylabel(-3 "-3%" 0 "0%" 3 "3%" 6 "6%" 9 "9%") || ///
@@ -325,6 +269,8 @@ save "/Users/robmarty/Desktop/USAID/ChiefEconomist/FinancingFlows/StataOutput/fi
 				scatter uw_sh_epol_remittances year if lic==2 & ends==1, msize(large) mcolor("179 0 44") ylabel(-10 "-10%" -5 "-5%" 0 "0%" 5 "5%" 10 "10%" 15 "15%" 20 "20%") || ///
 				line uw_sh_epol_private year if lic==2, lcolor("1 28 88") lpattern(dash) lwidth(medthick) ylabel(-10 "-10%" -5 "-5%" 0 "0%" 5 "5%" 10 "10%" 15 "15%" 20 "20%") || ///
 				scatter uw_sh_epol_private year if lic==2 & ends==1, msize(large) mcolor("1 28 88")  ///
+				scatter uw_sh_epol_private year if lic==2 & ends==1, msize(large) mcolor("1 28 88")  ///
+				scatter uw_sh_epol_private year if lic==2 & ends==1, msize(large) mcolor("1 28 88")  ///
 				legend(off) ///
 				ytitle("") xtitle("") ///
 				xlabel(1995(5)2012, notick labsize(small)) xscale(noline) ///
@@ -348,7 +294,7 @@ save "/Users/robmarty/Desktop/USAID/ChiefEconomist/FinancingFlows/StataOutput/fi
 				"and 2012 are linearly interpolated; shares are unweighted averages across countries.", ///
 				size(vsmall))
 		graph display, ysize(4) xsize(5)
-		graph export "$figures/Fig6_ExtPovVision.pdf", replace
+		graph export "$figures\Fig6_ExtPovVision.pdf", replace
 		
 
 			

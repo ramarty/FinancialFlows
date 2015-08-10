@@ -3,46 +3,46 @@
 **                      ** 
 **                      **
 **		Rob Marty		**
-**     USAID/E3/EP      **
-**  Last Updated 8/10   **
+**     USAID\E3\EP      **
+**  Last Updated 8\10   **
 **************************
 
 ********************************************************************************	
 * Initial Set-Up  
 
 * Set file path to financial flows folder
-global projectpath "~/Desktop/USAID/ChiefEconomist/FinancialFlows/"
+global projectpath "~\Desktop\USAID\ChiefEconomist\FinancialFlows"
 
-global data "$projectpath/Data/"
-global tables "$projectpath/Tables/"
-global figures "$projectpath/Figures/"
-global BOPfolder "$projectpath/RawData/BoP/"
-global BOPrawData "$projectpath/RawData/BoP/IMF_Data/"
+global data "$projectpath\Data\"
+global tables "$projectpath\Tables\"
+global figures "$projectpath\Figures\"
+global BOPfolder "$projectpath\RawData\BoP\"
+global BOPrawData "$projectpath\RawData\BoP\IMF_Data\"
 
 ********************************************************************************
 ***** Importing and Keeping Useful Variables
-import delimited "$BOPrawData/Data.csv", clear
+import delimited "$BOPrawData\Data.csv", clear
 drop datasourcelabel datasourcecode frequencylabel frequencycode timecode unitcode statuslabel statuscode countrycode
 duplicates drop countrylabel timelabel value conceptcode unitlabel, force
-save  "$BOPfolder/Data.dta", replace
+save  "$BOPfolder\Data.dta", replace
 
 ********************************************************************************
 ***** Converting All Values to US Dollar
-use  "$BOPfolder/Data.dta", clear
+use  "$BOPfolder\Data.dta", clear
 keep if unitlabel == "National Currency per US Dollar"
 keep countrylabel timelabel value
 rename value natCurPerUSDol
 tempfile natCurPerUSDol
 save `natCurPerUSDol'
 
-use  "$BOPfolder/Data.dta", clear
+use  "$BOPfolder\Data.dta", clear
 keep if unitlabel == "ECU per National Currency"
 keep countrylabel timelabel value
 rename value ECUperNatCur
 tempfile ECUperNatCur
 save `ECUperNatCur'
 
-use  "$BOPfolder/Data.dta", clear
+use  "$BOPfolder\Data.dta", clear
 merge m:1 countrylabel timelabel using `natCurPerUSDol', nogen
 merge m:1 countrylabel timelabel using `ECUperNatCur', nogen
 
@@ -61,15 +61,15 @@ drop natCurPerUSDol ECUperNatCur unitlabel
 ***** Change data into panel dataset
 keep if conceptcode == "BXG"
 drop conceptlabel conceptcode value 
-save  "$BOPfolder/Base.dta", replace
+save  "$BOPfolder\Base.dta", replace
 
 foreach IFScode in BXG BMG BXS BMS BICXT BIDXT BXITA BMIT BKAA_CD BK_DB BFDA BFDIA BFPXFDA BFPXFDL BFOA BFOLA BFOAA BFOLAA BFPADF BFPLF BOP NX NFI NINV NM {
-	use  "$BOPfolder/Data.dta", clear
+	use  "$BOPfolder\Data.dta", clear
 	qui keep if conceptcode == "`IFScode'"
 	renvars value, prefix(`IFScode'_)
 	drop conceptlabel conceptcode unitlabel
-	qui merge m:m timelabel countrylabel using "$BOPfolder/Base.dta", nogen
-	qui save "$BOPfolder/Base.dta", replace
+	qui merge m:m timelabel countrylabel using "$BOPfolder\Base.dta", nogen
+	qui save "$BOPfolder\Base.dta", replace
 }
 
 ********************************************************************************
@@ -148,28 +148,28 @@ replace countrylabel = "Yemen, Rep." if countrylabel == "Yemen, Republic of"
 duplicates drop countrylabel timelabel, force
 rename countrylabel ctrys
 rename timelabel year
-save  "$BOPfolder/BoP_Data.dta", replace
+save  "$BOPfolder\BoP_Data.dta", replace
 
 ********************************************************************************
 ***** Merging BoP dataset with Financial Flow Dataset
-use  "$data/financialflows.dta", clear 
+use  "$data\financialflows.dta", clear 
 decode ctry, generate(ctrys)
 drop if ctry == .
-merge 1:1 ctrys year using "$BOPfolder/BoP_Data.dta"
-save "$BOPfolder/BoP_Data_IFSAvailability.dta", replace
+merge 1:1 ctrys year using "$BOPfolder\BoP_Data.dta"
+save "$BOPfolder\BoP_Data_IFSAvailability.dta", replace
 
 ********************************************************************************
 ***** LIC and Only Dev and Transition ***
-use "$BOPfolder/BoP_Data_IFSAvailability.dta", clear
+use "$BOPfolder\BoP_Data_IFSAvailability.dta", clear
 *gen lic = 2 if inclvl_wb == 3
 *replace lic = 1 if inclvl_wb != 3
 
 keep if devstatus == 2 | devstatus == 3
-save "$BOPfolder/BoP_Data_IFSAvailability.dta", replace
+save "$BOPfolder\BoP_Data_IFSAvailability.dta", replace
 
 ********************************************************************************
 ***** Gross Financial Trade
-use "$BOPfolder/BoP_Data_IFSAvailability.dta", clear
+use "$BOPfolder\BoP_Data_IFSAvailability.dta", clear
 qui g abscap_imf = abs(kaniecre) + abs(kaniedeb)
 foreach v in picre pideb oicre oideb{
 	g a_`v' = abs(`v')
@@ -181,7 +181,7 @@ qui g abskae_imf = abska_imf + absnero_imf
 foreach v in abscap absfin absnero abska abskae{
 	 qui g `v'_imfy = 100 *`v'_imf / (gdp*1000000)
 }
-save "$BOPfolder/BoP_Data_IFSAvailability.dta", replace
+save "$BOPfolder\BoP_Data_IFSAvailability.dta", replace
 collapse (mean) abscap_imfy absfin_imfy absnero_imfy abska_imfy abskae_imfy, by(year lic)
 keep if year >= 1980 & year <= 2008
 gen ends = 1 if inlist(year, 1980, 2008)
@@ -201,11 +201,11 @@ twoway line abskae_imfy year if lic == 1, lcolor("179 0 44") lwidth(medthick) ||
 	   note("Values are averaged across countries") ///
 	   graphregion(color(white))
 
-graph export "$figures/GrossFinancialTrade.pdf", replace
+graph export "$figures\GrossFinancialTrade.pdf", replace
   	   
 ********************************************************************************
 ***** Gross Trade
-use "$BOPfolder/BoP_Data_IFSAvailability.dta", clear
+use "$BOPfolder\BoP_Data_IFSAvailability.dta", clear
 qui g absg_imf = abs(expfob) + abs(impfob)
 qui g absgs_imf = absg_imf + abs(sercre) + abs(serdeb)
 qui g absgsi_imf = absgs_imf + abs(inccre) + abs(incdeb)
@@ -213,7 +213,7 @@ qui g absca_imf = absgsi_imf + abs(ctrcre) + abs(ctrdeb)
 foreach v in absg absgs absgsi absca{
 	 g `v'_imfy = 100*`v'_imf / (gdp*1000000)
 }
-save "$BOPfolder/BoP_Data_IFSAvailability.dta", replace
+save "$BOPfolder\BoP_Data_IFSAvailability.dta", replace
 collapse (mean) absg_imfy absgs_imfy absgsi_imfy absca_imfy, by(year lic)
 keep if year >= 1980
 
@@ -252,11 +252,11 @@ note("Values are averaged across countries")
 
 graph display, ysize(5) xsize(4)
 
-graph export "$figures/GrossTrade.pdf", replace
+graph export "$figures\GrossTrade.pdf", replace
 
 ********************************************************************************
 ***** Gross Financial Trade as Ratio to Gross Total
-use "$BOPfolder/BoP_Data_IFSAvailability.dta", clear
+use "$BOPfolder\BoP_Data_IFSAvailability.dta", clear
 
 qui g finshare = 100*abskae_imf / (abskae_imf + absca_imf)
 collapse (mean) finshare, by(year lic)
@@ -278,5 +278,5 @@ twoway line finshare year if lic == 1, lcolor("179 0 44") lwidth(medthick) || //
 	   note("Values are averaged across countries") ///
 	   graphregion(color(white))
 
-graph export "$figures/GrossFinancialTRatioTrade.pdf", replace
+graph export "$figures\GrossFinancialTRatioTrade.pdf", replace
 
