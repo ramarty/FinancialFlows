@@ -1,6 +1,6 @@
 # FinancialFlows
 
-This contains data, do-files, figures and tables for financial flows analysis. *To download,* click the "Download ZIP" button to the right.  
+This contains data, do-files, figures and tables for financial flows analysis. To download the entire 'FinancialFlows' folder, click the "Download ZIP" button to the right.  
 
 **Data**
 * **financialflows.dta:** Full available sample
@@ -12,7 +12,7 @@ This contains data, do-files, figures and tables for financial flows analysis. *
 * **Graphs.do:** Generates graphs of financial flows.
 * **IMF_BoP.do:** Generates graphs of gross balance of payment flows, specifically of: (1) gross trade, (2) gross financial trade, and (3) ratio of KA to CA trade. 
 * **UpdateSamples.do:** Updates the available sample and the constant sample. Specifically, it can be used to update: (1)  the gov't revenue variable, and (2) parameters for constructing the constant sample (i.e., time-span and how many observations a variable must have before interpolating).
-* **To make the do-files work on your computer,** you'll need to update the "global projectpath" in each of the do-files so the file path goes to the FinancialFlows folder. This is located near the top of each do-file. In addition, the do-files were written on a Mac computer. In a file path, Macs use a forward slash ( / ) to separate files, while PCs use a backslash ( \ ). To get the do-files to work on a PC, you'll have to "find and replace" / with \.    
+* **To make the do-files work on your computer,** you'll need to update the "global projectpath" in each of the do-files so the file path goes to the FinancialFlows folder. This is located near the top of each do-file. In addition, the do-files were written on a Mac computer. In a file path, Macs use a forward slash ( / ) to separate files, while PCs use a backslash ( \ ). To get the do-files to work on a PC, you'll have to "find and replace" "/" with "\".    
 
 **Documents**
 * This folder contains documents that describes some of the key variables. The documents were created by Aaron. 
