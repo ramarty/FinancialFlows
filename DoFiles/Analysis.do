@@ -228,10 +228,11 @@ gen labelnonRES = "non-Res" if year == 2010
 			legend(off) ///
 			title("{bf: per capita GDI}", color(black) size(medium) box bexpand bcolor("217 217 217")) ///
 			ytitle("log(pcGDI)") xtitle("") ///
-			xlabel(1990(5)2015, notick) xscale(noline) ///
+			xlabel(1990(5)2010, notick) xscale(noline) ///
 			name("gdi", replace) ///
 			plotregion(style(none)) ///
 			graphregion(color(white)) ///
+			lwidth(medthick) ///
 			nodraw
 
 		twoway line rgdpl_ln year, ///
@@ -242,6 +243,7 @@ gen labelnonRES = "non-Res" if year == 2010
 			name("gdp", replace) ///
 			plotregion(style(none)) ///
 			graphregion(color(white)) ///
+			lwidth(medthick) ///
 			nodraw
 
 		twoway line oneplus_ietot_rgdpl_ln year, ///
@@ -252,6 +254,7 @@ gen labelnonRES = "non-Res" if year == 2010
 			name("ietot", replace) ///
 			plotregion(style(none)) ///
 			graphregion(color(white)) ///
+			lwidth(medthick) ///
 			nodraw
 			
 		graph combine gdi gdp ietot, row(3) graphregion(color(white)) ///
